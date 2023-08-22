@@ -211,7 +211,6 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo }) => {
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                 
               />
             </div>
             <div className="mb-3">
@@ -224,7 +223,6 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo }) => {
                 id="state"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-             
               >
                 <option value="New">New</option>
                 <option value="Processing">Processing</option>
@@ -234,19 +232,22 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo }) => {
             </div>
             <div className="row justify-content-center mb-3">
               <div className="col-lg-6 ">
-                <label className="form-label" htmlFor="startDate">Start Date</label>
+                <label className="form-label" htmlFor="startDate">
+                  Start Date
+                </label>
                 <input
                   id="startDate"
                   className="form-control"
                   type="date"
                   value={startDate}
                   onChange={handleStartDateChange}
-                 
                 />
                 <span id="startDateSelected"></span>
               </div>
               <div className="col-lg-6">
-                <label className="form-label" htmlFor="endDate">End Date</label>
+                <label className="form-label" htmlFor="endDate">
+                  End Date
+                </label>
                 <input
                   id="endDate"
                   className="form-control"
@@ -254,47 +255,53 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo }) => {
                   value={endDate}
                   min={startDate}
                   onChange={handleEndDateChange}
-                 
                 />
                 <span id="endDateSelected"></span>
               </div>
             </div>
 
-            <CustomEditor
-              value={editorContent}
-              onChange={handleEditorChange}
-            
-            />
+            <CustomEditor value={editorContent} onChange={handleEditorChange} />
 
             <div className="mb-3">
               <label htmlFor="fileInput" className="form-label">
-                Ekler
+              Appendices
               </label>
 
               <div className="file-chooser">
-                <input
-                  className="form-control file-chooser__input"
-                  type="file"
-                  id="fileInput"
-                  multiple
-                  onChange={handleFileChange}
-                 
-                />
+                <label className="file-chooser__label">
+                  <span className="file-chooser__button">
+                    <i className="fa fa-solid fa-plus"></i>&nbsp; Select Files
+                  </span>
+                  <input
+                    className="form-control file-chooser__input visually-hidden"
+                    type="file"
+                    id="fileInput"
+                    multiple
+                    onChange={handleFileChange}
+                  />
+                </label>
               </div>
-              <div className="file-list row p-3">
-                {selectedFiles.map((file, index) => (
-                  <div key={index} className="file-list__item col-12">
-                    <span className="file-list__name">
-                      {getFileIcon(file.name)}&nbsp;{file.name}
-                    </span>
-                    <button
-                      className="removal-button"
-                      type="button"
-                      onClick={() => handleFileDelete(file.name)}
-                    ></button>
-                  </div>
-                ))}
-              </div>
+              {selectedFiles.length === 0 ? (
+                <p className="warningText mt-1">
+                  You have not uploaded any files yet ! You can choose by
+                  clicking the upload file button.
+                </p>
+              ) : (
+                <div className="file-list row p-3">
+                  {selectedFiles.map((file, index) => (
+                    <div key={index} className="file-list__item col-12">
+                      <span className="file-list__name">
+                        {getFileIcon(file.name)}&nbsp;{file.name}
+                      </span>
+                      <button
+                        className="removal-button"
+                        type="button"
+                        onClick={() => handleFileDelete(file.name)}
+                      ></button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="mb-3"></div>
             <button className="btn my-1 btnSubmit" onClick={handleSubmit}>
