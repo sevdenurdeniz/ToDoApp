@@ -11,7 +11,7 @@ const ToDoShow = ({ show, onHide, todo, onEdit }) => {
     onEdit();
   };
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>{todo.title}</Modal.Title>
       </Modal.Header>
@@ -46,7 +46,7 @@ const ToDoShow = ({ show, onHide, todo, onEdit }) => {
 
           <div className="row justify-content-center mb-3">
             <div className="col-lg-6">
-              <label htmlFor="startDate">Start Date</label>
+              <label className="form-label" htmlFor="startDate">Start Date</label>
               <input
                 id="startDate"
                 className="form-control"
@@ -56,7 +56,7 @@ const ToDoShow = ({ show, onHide, todo, onEdit }) => {
               />
             </div>
             <div className="col-lg-6">
-              <label htmlFor="endDate">End Date</label>
+              <label className="form-label" htmlFor="endDate">End Date</label>
               <input
                 id="endDate"
                 className="form-control"
@@ -75,19 +75,19 @@ const ToDoShow = ({ show, onHide, todo, onEdit }) => {
                 <label htmlFor="fileList" className="form-label">
                   Files
                 </label>
-                <ul id="fileList">
+                 
                   {todo.fileNames.map((fileName, index) => (
-                    <li key={index}>
+                    <div className="fileDiv my-3 py-2" key={index}>
                       <a
                         href={todo.fileDownloadURLs[index]}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {fileName}
+                       <i className="fa fa-solid fa-download fileIcon"></i> {fileName}
                       </a>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                 
               </div>
             )}
           </div>

@@ -78,6 +78,14 @@ body {
   height: 55px;
   display: flex;
   align-items: center;
+  position: relative;
+  padding-right: 23px;
+}
+.title i{
+  position: absolute;
+  right: 1%;
+  color: #f3a32a;
+  font-size: 21px;
 }
 .title h4 {
   margin-bottom: 0 !important;
@@ -121,12 +129,16 @@ form .form-select {
   text-align: right;
   color: #ababab !important;
 }
+.state{
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
 .state span {
   background: #755cff;
   color: #ffffff;
   border-radius: 30px;
   padding: 2px 7px;
-  font-size: 15px;
+  font-size: 14px;
 }
 /* kart hover işlemi */
 .card {
@@ -253,12 +265,12 @@ form .form-select {
 }
 .stateBtn.active:nth-child(5) i {
   margin-right: 4px;
-  color: #f78a33;
+  color: #e95960;
   background: white;
 }
 .stateBtn.active:nth-child(5) {
   margin-right: 4px;
-  background-color: #f78a33 !important;
+  background-color: #e95960 !important;
   color: white;
 }
 .stateBtn.active {
@@ -373,7 +385,7 @@ form .form-select {
 }
 
 .bg-4 span {
-  background-color: #f78a33 !important;
+  background-color: #e95960 !important;
 }
 .text {
   height: 160px;
@@ -385,11 +397,11 @@ ul {
 ::marker {
   color: gray;
 }
-.btnOnEdit{
+.btnOnEdit {
   display: flex;
   float: right;
   background-color: #16a975 !important;
-  color: #fff!important;
+  color: #fff !important;
 }
 .file-uploader {
   background-color: #dbefe9;
@@ -411,11 +423,23 @@ ul {
   border: 1px solid #f3f3f3;
   border-radius: 5px;
   padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 .file-list__name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.file-list__name i {
+  color: #f0b252;
+  width: 24px;
+  height: 26px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  background: #f4f4f5;
 }
 .file-list li {
   height: 50px;
@@ -424,10 +448,20 @@ ul {
   border: none;
   overflow: hidden;
 }
+.quill {
+  margin: 24px 0;
+}
+.ql-editor.ql-blank {
+  min-height: 115px !important;
+}
+label {
+  font-weight: 600;
+  color: #000000;
+}
 .removal-button {
   width: 6%;
   border: none;
-  background-color: #f8fafb;
+  background-color: #eaedee;
   color: #e33939;
   align-items: center;
   justify-content: center;
@@ -435,7 +469,10 @@ ul {
   font-weight: bold;
 }
 .removal-button::before {
-  content: "X";
+  content: "\f2ed";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 16px;
 }
 .removal-button:focus {
   outline: 0;
@@ -444,6 +481,7 @@ ul {
   font-size: 18px;
   padding-top: 1em;
 }
+
 .file-uploader {
   max-width: 400px;
   height: auto;
@@ -494,16 +532,30 @@ ul {
   background-color: #d65d38;
   color: white;
 }
-.flex.justify-center.items-center{
+.flex.justify-center.items-center {
   display: flex;
-  justify-content: center;  
-  align-items: center;  
-  height: 60vh; 
-  
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
 }
-.showEditor{
+.showEditor {
   pointer-events: none;
 }
+.fileIcon{
+  color: #f3a32a;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  margin-right: 2px;
+}
+.fileDiv{
+  background: #f8fafb;
+  border-radius: 7px;
+}
+
 /* mobil  */
 @media (max-width: 767px) {
   .addBtn {

@@ -79,7 +79,7 @@ function RegisterForm() {
           </div>
           <div className="text-center">
             <button type="submit" className="btn btn-register">
-              Sign In
+              Sign Up
             </button>
         
       </div>

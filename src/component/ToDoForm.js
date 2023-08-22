@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import CustomEditor from "./Quill.js";
- 
+
 import { db, ref, push, set, get, storage } from "../firebase.js";
 import { useAuth } from "../context/authContext";
 import swal from "sweetalert";
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 import { ref as sRef } from "firebase/storage";
 
-const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
- 
-  const [mode, setMode] = useState("Add");  
+const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo }) => {
+  const [mode, setMode] = useState("Add");
 
   const readOnly = mode === "View";
   const editable = mode === "Edit" || mode === "Add";
@@ -50,7 +49,7 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
       setStartDate(new Date().toISOString().slice(0, 10));
       setEndDate(new Date().toISOString().slice(0, 10));
       setEditorContent("");
-      setMode("Add"); 
+      setMode("Add");
     }
   }, [selectedTodo]);
 
@@ -93,7 +92,27 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
       fileInput.value = null;
     }
   };
+  const handleStartDateChange = (e) => {
+    const newStartDate = e.target.value;
+    if (newStartDate <= endDate) {
+      setStartDate(newStartDate);
+    }
+  };
+  const handleEndDateChange = (e) => {
+    const newEndDate = e.target.value;
+    if (newEndDate >= startDate) {
+      setEndDate(newEndDate);
+    }
+  };
 
+  const getFileIcon = (fileName) => {
+    const extension = fileName.split(".").pop().toLowerCase();
+    if (["jpeg", "jpg", "png"].includes(extension)) {
+      return <i className="far fa-image"></i>;
+    } else {
+      return <i className="far fa-file"></i>;
+    }
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -104,7 +123,7 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
           ? ref(db, `todos/${selectedTodo.id}`)
           : push(todosRef);
         const newTodoKey = newTodoRef.key;
- 
+
         const fileDownloadURLs = [];
         if (selectedFiles.length > 0) {
           const fileUploadPromises = selectedFiles.map(async (file) => {
@@ -142,7 +161,7 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
             : "New To Do is successfully added!",
           "success"
         );
- 
+
         const updatedTodos = [];
         const todosSnapshot = await get(todosRef);
         todosSnapshot.forEach((childSnapshot) => {
@@ -152,7 +171,7 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
           }
         });
         setTodos(updatedTodos);
- 
+
         setEditorContent("");
         setTitle("");
         setState("New");
@@ -181,7 +200,6 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
- 
           <form>
             <div className="mb-3">
               <label htmlFor="title" className="form-label">
@@ -193,7 +211,7 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                readOnly={readOnly} 
+                 
               />
             </div>
             <div className="mb-3">
@@ -206,7 +224,7 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
                 id="state"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                readOnly={readOnly} 
+             
               >
                 <option value="New">New</option>
                 <option value="Processing">Processing</option>
@@ -216,33 +234,37 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
             </div>
             <div className="row justify-content-center mb-3">
               <div className="col-lg-6 ">
-                <label htmlFor="startDate">Start Date</label>
+                <label className="form-label" htmlFor="startDate">Start Date</label>
                 <input
                   id="startDate"
                   className="form-control"
                   type="date"
                   value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  readOnly={readOnly} 
+                  onChange={handleStartDateChange}
+                 
                 />
                 <span id="startDateSelected"></span>
               </div>
               <div className="col-lg-6">
-                <label htmlFor="endDate">End Date</label>
+                <label className="form-label" htmlFor="endDate">End Date</label>
                 <input
                   id="endDate"
                   className="form-control"
                   type="date"
                   value={endDate}
                   min={startDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  readOnly={readOnly} 
+                  onChange={handleEndDateChange}
+                 
                 />
                 <span id="endDateSelected"></span>
               </div>
             </div>
 
-            <CustomEditor value={editorContent} onChange={handleEditorChange}  readOnly={readOnly}  />
+            <CustomEditor
+              value={editorContent}
+              onChange={handleEditorChange}
+            
+            />
 
             <div className="mb-3">
               <label htmlFor="fileInput" className="form-label">
@@ -256,13 +278,15 @@ const ToDoForm = ({ modalShow, setModalShow, setTodos, selectedTodo   }) => {
                   id="fileInput"
                   multiple
                   onChange={handleFileChange}
-                  readOnly={readOnly} 
+                 
                 />
               </div>
               <div className="file-list row p-3">
                 {selectedFiles.map((file, index) => (
                   <div key={index} className="file-list__item col-12">
-                    <span className="file-list__name">{file.name}</span>
+                    <span className="file-list__name">
+                      {getFileIcon(file.name)}&nbsp;{file.name}
+                    </span>
                     <button
                       className="removal-button"
                       type="button"

@@ -16,7 +16,7 @@ const ToDoList = () => {
   const [modalShow, setModalShow] = useState(false);
   const [todos, setTodos] = useState([]);
   const { currentUser } = useAuth();
-  const { uid } = currentUser || {}; 
+  const { uid } = currentUser || {};
   const [selectedFilter, setSelectedFilter] = useState("All");
   const { logout } = useAuth();
 
@@ -53,7 +53,7 @@ const ToDoList = () => {
         }
       });
     }
-   }, [currentUser, uid]);
+  }, [currentUser, uid]);
 
   const getFilteredTodos = () => {
     if (selectedFilter === "All") {
@@ -69,10 +69,26 @@ const ToDoList = () => {
 
   const handleDeleteToDo = async (todoId) => {
     try {
-      await remove(ref(db, `todos/${todoId}`));
-      const updateTodos = todos.filter((todo) => todo.id !== todoId);
-      setTodos(updateTodos);
-      swal("Delete To Do!", "Todo is deleted successfully !", "success");
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this to-do item!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then(async (willDelete) => {
+        if (willDelete) {
+          try {
+            await remove(ref(db, `todos/${todoId}`));
+            const updatedTodos = todos.filter((todo) => todo.id !== todoId);
+            setTodos(updatedTodos);
+            swal("Delete!", "The to-do item has been deleted.", "success");
+          } catch (error) {
+            console.log("Error deleting to-do item", error);
+          }
+        } else {
+          swal("Cancelled", "Your to-do item is safe.", "info");
+        }
+      });
     } catch (error) {
       console.log("error delete", error);
     }
@@ -84,8 +100,8 @@ const ToDoList = () => {
         title: "Logout",
         text: "Successfully logged out.",
         icon: "success",
-        timer: 1000,  
-        buttons: false,  
+        timer: 1000,
+        buttons: false,
       });
       setTimeout(async () => {
         await logout();
@@ -125,9 +141,8 @@ const ToDoList = () => {
                     <i className="fa fa-solid fa-user barUser"></i>
                   </Dropdown.Toggle>
                   <Dropdown.Menu className="text-center">
-                 
                     <Dropdown.Item onClick={handleLogout}>
-                      <i className="fa fa-solid fa-arrow-right-from-bracket"></i>
+                    <i class="fa fa-solid fa-right-from-bracket"></i>
                       Çıkış Yap
                     </Dropdown.Item>
                   </Dropdown.Menu>

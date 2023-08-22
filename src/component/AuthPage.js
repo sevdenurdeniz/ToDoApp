@@ -30,7 +30,7 @@ function AuthPage() {
                       className=" btn"
                       onClick={() => setShowLogin(!showLogin)}
                     >
-                      Sign In
+                      Sign Up
                     </button>
                   </span>
                 ) : (

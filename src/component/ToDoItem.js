@@ -31,27 +31,38 @@ const ToDoItem = ({ todo, onDelete, setTodos }) => {
     setShowModal(false);
     setShowEditForm(false);
   };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+  };
+
   return (
     <div className="col-12 col-lg-4 my-4" key={todo.id}>
       <div className="card p-3">
         <div className="title">
           <h4>{todo.title}</h4>
+          {todo.fileNames && todo.fileNames.length > 0 && (
+          <i className="fa fa-solid fa-paperclip"></i>
+        )}
         </div>
         <hr />
         <div className="text">{ReactHtmlParser(todo.content)}</div>
         <hr />
         <div className="row">
-          <div className={`state col-4 ${stateClass}`}>
+          <div className={`state col-3 ${stateClass}`}>
             <span>{todo.state}</span>
           </div>
-          <div className="date col-8 text-right">
+          <div className="date col-9 text-right">
             <i className="fa fa-regular fa-calendar"></i>
             <span>
-              &nbsp;{todo.startDate} - {todo.endDate}
+              &nbsp;{formatDate(todo.startDate)} - {formatDate(todo.endDate)}
             </span>
           </div>
         </div>
-
+      
         <ul className="icon">
           <li>
             <a onClick={handleView} className="fa fa-solid fa-eye"></a>
@@ -64,14 +75,19 @@ const ToDoItem = ({ todo, onDelete, setTodos }) => {
           </li>
         </ul>
       </div>
-      <ToDoShow show={showModal} onHide={handleCloseModal} todo={todo} onEdit={handleEdit} />
+      <ToDoShow
+        show={showModal}
+        onHide={handleCloseModal}
+        todo={todo}
+        onEdit={handleEdit}
+      />
       {showEditForm && (
         <ToDoForm
           modalShow={showEditForm}
           setModalShow={setShowEditForm}
           selectedTodo={todo}
           setTodos={setTodos}
-          mode="Edit" 
+          mode="Edit"
         />
       )}
     </div>
